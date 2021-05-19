@@ -80,6 +80,7 @@ echo "
 " >> ${log_file}
 
 # Mapping
+echo ${n_thread}
 ${main_prog} memaln -T ${map_qual} -t ${n_thread} ${fasta} \
     ${run}.${tag_name}.fastq.gz 1> ${run}.${tag_name}.sam 2>> ${log_file}
 

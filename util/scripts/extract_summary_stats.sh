@@ -35,7 +35,7 @@ done
 
 ## Move to output directory
 source ${conf}
-cd ${out_dir}
+# cd ${out_dir} # zahashowalem to program w trakcie wykonania jest juz w out_dir wiec nie trzeba tego robic, a program nie bedzie wyrzucal bledu  ML
 
 # Add dependency dir to path
 export PATH=${dep_dir}:${PATH}

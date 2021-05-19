@@ -1,5 +1,6 @@
 import os
-import commands
+#import commands
+import subprocess as commands #  ML zmienilem to w python3 nie ma juz modulu commands zostal zastapiony subprocess
 import argparse
 
 

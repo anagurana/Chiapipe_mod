@@ -2,7 +2,7 @@ import os
 import itertools
 from Bio import SeqIO
 from Bio.Seq import Seq
-# from Bio.Alphabet import SingleLetterAlphabet
+# from Bio.Alphabet import SingleLetterAlphabet ML zahashowalem bo w python3 juz go nie ma
 from Bio.SeqIO.QualityIO import FastqPhredIterator
 from Bio.SeqRecord import SeqRecord
 import regex
@@ -139,69 +139,38 @@ def parse_read_pair_for_linker(r1, r2, linker, n_mismatch, min_tag_len):
     return r1, r2, n_link, n_tag
 
 
-def standardize_read_name(r, id = 0):
+def standardize_read_name(r):
     """
     Standardize the read name.
     
     Args:
         r (Bio.SeqRecord.SeqRecord):
             The read as a Biopython record.
-        id (int)
-            The read number, default 0
             
     Returns:
         r (Bio.SeqRecord.SeqRecord):
             The read with a standardized name. 
     """
-
-    # rozbijmy t na 2 mozliwosci oryginalny chiapipe i moj
-    # zdolny parsowac header illuminy
-
-    # oryginalny header to:
-    # R1: SRR4457848.1.1
-    # R2 SRR4457848.1.2
-
-    # moj header:
-    # R1 : @A00805:37:HHYTMDRXX:1:1101:32479:1063 1:N:0:NCCTGAGC+NATCCTCT
-    # R2 @A00805:37:HHYTMDRXX:1:1101:32479:1063 2:N:0:NCCTGAGC+NATCCTCT
-
+    old_name_parts = r.name.split('.')
+    
+    read_num = old_name_parts[1]
+    mate_num = old_name_parts[2]
+    
+    if mate_num == '1':
+        mate_sect = '90:130'
+    else:
+        mate_sect = '94:129' 
+      
     generic_sect = '897:1101'
     
-    if len(regex.findall('SRR', r.name)) > 0:
-        #stara sciezka
-        old_name_parts = r.name.split('.')
-
-        read_num = old_name_parts[1]
-        mate_num = old_name_parts[2]
-
-        if mate_num == '1':
-            mate_sect = '90:130'
-        else:
-            mate_sect = '94:129'
-
-        
-
-        read_name = ':'.join(
-            [read_num, mate_sect, generic_sect, read_num, read_num])
-
-        
-    else:
-        id = str(id)
-        old_name_parts = regex.split(":|\s", r.description)
-        if int(old_name_parts[7]) == 1:
-            mate_sect = '90:130'
-        else:
-            mate_sect = '94:129'
-
-        read_name = ':'.join(
-            [id, mate_sect, generic_sect, id, id])
-
+    read_name = ':'.join(
+        [read_num, mate_sect, generic_sect, read_num, read_num])
+    
     r.description = read_name
     r.name = read_name
     r.id = read_name
-    
+                
     return r
-
 
 
 def open_output_files(run):
@@ -278,21 +247,17 @@ def filter_hichip_linker(
     
     # Open files
     a_none, a_one_tag, a_two_tag, a_conflict = open_output_files(run)
-   
-
-    # ML added n_mismatch nie ustawiony ani w conf ani w skrypcie
-    n_mismatch = 1
+    
     # Iterate over read pairs
-    i = 1
-    for r1, r2 in zip(r1_iter, r2_iter):
+    for r1, r2 in zip(r1_iter, r2_iter): # zmienilem itertools.izip na zip, w koncu przech python3
         
         ## Parse the read pair for the linker
         # The sequence of each read is now just the genomic tag
         # The number of linkers and number of tags is tracked
         r1, r2, n_link, n_tag = parse_read_pair_for_linker(
             r1, r2, linker, n_mismatch, min_tag_len)
-        r1 = standardize_read_name(r1, i)
-        r2 = standardize_read_name(r2, i)
+        r1 = standardize_read_name(r1)
+        r2 = standardize_read_name(r2)
         res = [r1, r2]
         
         ## Categorize read pair appropriately
@@ -313,7 +278,7 @@ def filter_hichip_linker(
             elif n_tag == 2:
                 # Two tags
                 SeqIO.write(res, a_two_tag, 'fastq')
-        i += 1
+    
     close_output_files(a_none, a_one_tag, a_two_tag, a_conflict)
 
 
@@ -359,11 +324,16 @@ def parse_command_line_args():
 
 
 if __name__ == '__main__':
-     
-    args = parse_command_line_args()
-    n_mismatch = 1
     
-    #Perform the HiChIP linker filtering
-    filter_hichip_linker(args.r1_file, args.r2_file, args.linker, n_mismatch, args.min_tag_len, args.run)
-
-
+    args = parse_command_line_args()
+    n_mismatch = 2
+    
+    # Perform the HiChIP linker filtering
+    filter_hichip_linker(
+        args.r1_file,
+        args.r2_file, 
+        args.linker,
+        n_mismatch,
+        args.min_tag_len,
+        args.run)
+    

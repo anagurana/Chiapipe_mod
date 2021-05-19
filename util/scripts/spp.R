@@ -6,11 +6,15 @@ bin_dir = args[3]
 z_thresh = as.numeric(args[4])
 
 # Load packages and set library path environment variable
-library("Rsamtools", lib.loc=paste0(bin_dir, "/util/"))
-library("fastcluster", lib.loc=paste0(bin_dir, "/util/"))
-library("spp", lib.loc=paste0(bin_dir, "/util/"))
-.libPaths(paste0(bin_dir, "/util/"))
+#library("Rsamtools", lib.loc=paste0(bin_dir, "/util/")) # ML zainstalowalem te paczki globlnie,
+# korzystaniem z tego co jest w tych katalogach byloby baaardzo ryzykowane (zbudowane dla archaicznego R 3.2 bodajze ...)
+#library("fastcluster", lib.loc=paste0(bin_dir, "/util/")) # ML j.w
+#library("spp", lib.loc=paste0(bin_dir, "/util/")) # ML j.w. 
+#.libPaths(paste0(bin_dir, "/util/")) # hmm nie wiem po co to jest ...
 
+library("Rsamtools")
+library("fastcluster")
+library("spp")
 
 # Read the BAM files for the ChIP sample and the input-control sample
 chip_reads = read.bam.tags(chip_bam_file)
@@ -37,6 +41,10 @@ input_filt = remove.local.tag.anomalies(input_data)
 window_half_size = binding_char$whs
 
 # Identify broad regions of enrichment for the specified scale 
+# ML Drobna uwaga czasami program wyrzuca sie bo dostaje na dalszych chromosomach nie numeryczne wartosci do funkcji min/max, ewentualnie dostaje Inf/-Inf
+# mozna wiec zamiast podawac info o wszystkich chromosomach (ponad 3000!) dac tylko te ktore nas interesuja 
+# broad_clusters = get.broad.enrichment.clusters(chip_filt[1:25], input_filt[1:25], window.size=window_half_size, z.thr=z_thresh, ...)
+
 broad_clusters = get.broad.enrichment.clusters(
     chip_filt, input_filt, window.size=window_half_size, z.thr=z_thresh,
     tag.shift=round(binding_char$peak$x / 2))

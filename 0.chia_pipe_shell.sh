@@ -48,8 +48,8 @@ echo ${out_dir}
 
 # Set the resource parameters for the computing cluster
 # depending on the run type (miseq or hiseq)
-n_thread=1
-mem=8
+#n_thread=1 # ML te parametry sa juz w conf wiec je zahashowalem
+#mem=8 # ML te parametry sa juz w conf wiec je zahashowalem
     
 ###############
 ############### 1. Linker filtering

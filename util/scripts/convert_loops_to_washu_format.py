@@ -1,6 +1,5 @@
 import argparse
-import commands
-
+import subprocess as commands # ML zmienilem to w python3 nie ma juz modulu commands zostal zastapiony subprocess
 
 def convert_loops_to_washu_format(loop_file):
     """

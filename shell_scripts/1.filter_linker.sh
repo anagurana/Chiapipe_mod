@@ -57,8 +57,8 @@ echo "
     ${data_dir}/${r2_fastq}
 " >> ${log_file}
 
-
-## Linker filtering
+echo ${n_thread}
+# Linker filtering
 if [ ${experiment_type} == 'ChIA-PET' ]; then
     # Linker filtering for ChIA-PET experiment
 

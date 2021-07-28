@@ -1,3 +1,5 @@
+#!/bin/bash
+
 ##### Config file for ChIA PIPE ####
 
 ### 1) Library information
@@ -25,7 +27,7 @@ ip_factor="RNAPII"
 cell_type="Kc167"
 
 # The directory containing the input FASTQ files
-data_dir="/fastq"
+data_dir="/Chiapipe_mod/fastq"
 
 # The names of the FASTQ files
 r1_fastq="LDK0004-ds_*_R1_*.fastq"
@@ -71,7 +73,7 @@ basic_folder="New user testing"
 # BED file of promoters for annotating loops
 promoter_bed_file="none"
 
-# BED file of enhancers for annotating loops 
+# BED file of enhancers for annotating loops
 enhancer_bed_file="none"
 
 
@@ -117,7 +119,7 @@ linker_b="none"
 # genome after linker filtering
 min_tag_len=18
 
-# The span threshold for calling an interaction as 
+# The span threshold for calling an interaction as
 #self-ligation vs inter-ligation
 self_bp=8000
 

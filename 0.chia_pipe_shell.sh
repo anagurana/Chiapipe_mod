@@ -497,7 +497,7 @@ hic_file="ChIA-PET_${genome}_${cell_type}_${ip_factor}_${run}_${run_type}_pairs.
 
 java -Xmx2g -jar ${juicer} pre -r \
     2500000,1000000,500000,250000,100000,50000,25000,10000,5000,1000 \
-    ${run}.bsorted.pairs.gz ${hic_file} ${chrom_sizes}
+    ${run}.bsorted.pairs ${hic_file} ${chrom_sizes}
 
     
 ###############

@@ -33,13 +33,10 @@ RUN yum -y update && yum -y install \
     gcc-c++ \
     kernel-devel \
     wget \
-    bzip2
+    bzip2 \
+    zlib-devel.x86_64
 
 RUN git clone https://github.com/anagurana/Chiapipe_mod.git
-WORKDIR /Chiapipe_mod
-
-# Create directory for the project
-# RUN mkdir chia-pipe
 
 ### Install ChIA-PET Utilities (CPU)
 
@@ -61,27 +58,25 @@ WORKDIR /Chiapipe_mod
 ### LOCAL INSTALL CHIA PIPE DEPENDENCIES
 
 ## Insert install directory at front of PATH
-RUN install_dir=/Chiapipe_mod/dependencies
+ARG install_dir=/Chiapipe_mod/dependencies
 WORKDIR ${install_dir}
 RUN export PATH="${install_dir}:${PATH}"
 
 ## Install Anaconda2
 RUN wget https://repo.anaconda.com/archive/Anaconda2-5.2.0-Linux-x86_64.sh
 RUN bash Anaconda2-5.2.0-Linux-x86_64.sh -b -p ${install_dir}/anaconda2
-RUN ln -s /anaconda2/bin/python python && ln -s /anaconda2/bin/conda conda
+RUN ln -s anaconda2/bin/python python && ln -s anaconda2/bin/conda conda
 
 ## Install pysam, biopython, numpy, regex (Python packages)
 RUN echo "Installing pysam..." && ./conda install -c anaconda pysam
-RUN echo "Installing biopython..." && ./conda install -c anaconda biopython
-RUN echo "Installing numpy..." && ./conda install -c anaconda numpy
 RUN echo "Installing regex..." && ./conda install -c anaconda regex
+RUN echo "Installing biopython..." && ./conda install -c anaconda biopython
+#RUN echo "Installing numpy..." && ./conda install -c anaconda numpy
 
 ## Install MACS peak caller
 RUN echo "Installing macs2..." && ./conda install -c bioconda macs2
 RUN ln -s anaconda2/bin/macs2 macs2
 
-WORKDIR /Chiapipe_mod/util/cpu-dir
-RUN cd zlib-1.2.8 && ./configure && make
 
 ## Install pigz
 RUN wget https://zlib.net/pigz/pigz.tar.gz && tar -xzvf pigz.tar.gz
@@ -98,13 +93,17 @@ RUN ln -s jre/bin/java java
 ## Install perl/5.26.0
 RUN wget http://www.cpan.org/src/5.0/perl-5.26.0.tar.gz && tar -xzvf perl-5.26.0.tar.gz
 RUN cd perl-5.26.0 && ./Configure -des -Dprefix=${install_dir}
-RUN cd perl-5.26.0 && make && make test && make install
+RUN cd perl-5.26.0 && make && make install
 RUN yes | rm -r perl-5.26.0
+
+RUN cd /bin && ln -s /Chiapipe_mod/dependencies/anaconda2/bin/python python
 
 ## Install bedtools/2.26.0
 RUN wget https://github.com/arq5x/bedtools2/releases/download/v2.26.0/\
 bedtools-2.26.0.tar.gz && tar -xzvf bedtools-2.26.0.tar.gz
 RUN cd bedtools2 && make && cd bin && cp * ../../ && cd ../../ && rm -r bedtools2
+
+RUN yum install -y ncurses-devel bzip2-devel
 
 ## Install samtools/1.5
 RUN wget https://sourceforge.net/projects/samtools/files/samtools/1.5/\
@@ -113,16 +112,25 @@ RUN cd samtools-1.5 && ./configure --disable-lzma
 RUN cd samtools-1.5 && make && cp samtools ../
 RUN rm -r samtools-1.5
 
+RUN yum install -y readline-devel gcc-gfortran
+
 ## Install R/3.2.1
 RUN wget http://lib.stat.cmu.edu/R/CRAN/src/base/R-3/R-3.2.1.tar.gz && tar -xzvf R-3.2.1.tar.gz
 RUN cd R-3.2.1 && ./configure --prefix=${install_dir} --with-x=no && make
 RUN ln -s R-3.2.1/bin/R R
 
-# Exit from dependencies directory
-WORKDIR ../
+# ChIA-PIPE excecution
+WORKDIR /Chiapipe_mod
+COPY fastq fastq
+COPY reference reference
+COPY config_file.sh config_file.sh
 
- # COPY local_install_chia_pipe_dependencies.sh local_install_chia_pipe_dependencies.sh
- # RUN mkdir dependencies
- # RUN bash local_install_chia_pipe_dependencies.sh -i dependencies
+ENV PATH=/Chiapipe_mod/dependencies:$PATH
 
+COPY util/scripts/annotate_loops_with_peak_support.py util/scripts/annotate_loops_with_peak_support.py
+COPY util/scripts/convert_loops_to_washu_format.py util/scripts/convert_loops_to_washu_format.py
+
+RUN yum install -y bc
+
+COPY 0.chia_pipe_shell.sh 0.chia_pipe_shell.sh
 

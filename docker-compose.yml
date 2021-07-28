@@ -4,4 +4,4 @@ services:
 
   web:
     build: .
-    command: sleep 1000
+    command: bash -c "bash 0.chia_pipe_shell.sh -c config_file.sh && sleep 1000"

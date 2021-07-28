@@ -28,18 +28,20 @@ cell_type="Kc167"
 data_dir="../fastq/"
 
 # The names of the FASTQ files
-r1_fastq="LDK0004-ds_*_R1_*.fastq.gz"
-r2_fastq="LDK0004-ds_*_R2_*.fastq.gz"
+r1_fastq="LDK0004-ds_*_R1_*.fastq"
+r2_fastq="LDK0004-ds_*_R2_*.fastq"
 
 
 
 ### 2) Dependency information
 
 # The directory containing the executables for ChIA-PIPE
-bin_dir="/projects/encode/chia_pipe"
+#bin_dir="/projects/encode/chia_pipe"
+bin_dir="/mnt/d/ms/testing_chia_pipe/ChIA-PIPE"
 
 # The directory of the local install of ChIA-PIPE dependencies
-dep_dir="../dep_dir"
+#dep_dir="../dep_dir"
+dep_dir="/mnt/d/ms/testing_chia_pipe/dependencies"
 
 # The name of the primary genome
 # For example: "hg19", "hg38", "dm3", "mm9", "mm10"
@@ -47,11 +49,13 @@ genome="dm3"
 
 # The reference genome FASTA file for aligning the reads
 # (The same directory must also contain the BWA index files)
-fasta="/projects/ruan-lab/processing/genomes/dm3/dm3.fa"
+#fasta="/projects/ruan-lab/processing/genomes/dm3/dm3.fa"
+fasta="/mnt/d/ms/testing_chia_pipe/ChIA-PIPE/reference/dm3/dm3.fa"
 
 # The chrom.sizes file from UCSC Genome browser
 # for the relevant genome build
-chrom_sizes="/projects/ruan-lab/processing/genomes/dm3/dm3.chrom.sizes"
+#chrom_sizes="/projects/ruan-lab/processing/genomes/dm3/dm3.chrom.sizes"
+chrom_sizes="/mnt/d/ms/testing_chia_pipe/ChIA-PIPE/reference/dm3/dm3.chrom.sizes"
 
 # The BAM file for the ChIP-seq input control
 # (Required for spp; not required for macs2)

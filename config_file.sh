@@ -30,8 +30,8 @@ cell_type="Kc167"
 data_dir="/Chiapipe_mod/fastq"
 
 # The names of the FASTQ files
-r1_fastq="LDK0004-ds_*_R1_*.fastq"
-r2_fastq="LDK0004-ds_*_R2_*.fastq"
+r1_fastq="LDK0004-ds_*_R1_*.fastq.gz"
+r2_fastq="LDK0004-ds_*_R2_*.fastq.gz"
 
 
 

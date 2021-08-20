@@ -112,9 +112,11 @@ RUN wget http://lib.stat.cmu.edu/R/CRAN/src/base/R-3/R-3.2.1.tar.gz && \
     ./configure --prefix=${install_dir} --with-x=no && make && \
     ln -s R-3.2.1/bin/R R
 
-# ChIA-PIPE excecution
+# ChIA-PIPE excecution (when modifying)
 WORKDIR /Chiapipe_mod
 COPY fastq fastq
 COPY reference reference
+
 COPY config_file.sh config_file.sh
+COPY 0.chia_pipe_shell.sh 0.chia_pipe_shell.sh
 

@@ -59,16 +59,20 @@ fasta="/Chiapipe_mod/reference/dm3/dm3.fa"
 #chrom_sizes="/projects/ruan-lab/processing/genomes/dm3/dm3.chrom.sizes"
 chrom_sizes="/Chiapipe_mod/reference/dm3/dm3.chrom.sizes"
 
+# The peak-calling algorithm ("macs2" or "spp")
+peak_caller="macs2"
+
 # The BAM file for the ChIP-seq input control
 # (Required for spp; not required for macs2)
 # If not available, set to "none"
 input_control="none"
 
-# The peak-calling algorithm ("macs2" or "spp")
-peak_caller="macs2"
+# The Z-score threshold for peak calling with SPP
+z_thresh=6
+
 
 # The folder in BASIC browser to which to upload the tracks
-basic_folder="New user testing"
+basic_folder="${run}"
 
 # BED file of promoters for annotating loops
 promoter_bed_file="none"
@@ -105,12 +109,14 @@ n_thread=20
 # The amount of memory to use on the HPC (in GB)
 mem=60
 
-
-
 ## 4) Expert options: detailed parameters
 
 # The bridge linker sequence used during ChIA-PET
 linker_a="ACGCGATATCTTATCTGACT"
+
+## From the long-read paper
+#linker_a="CGCGATATC/iBIOdT/TATCTGACT"
+#linker_b="GTCAGATAAGATATCGCGT"
 
 # The second half linker sequence (if two linker sequences were used)
 linker_b="none"
@@ -125,9 +131,6 @@ self_bp=8000
 
 # The tag extension length during loop clustering
 exten_bp=500
-
-# The Z-score threshold for peak calling with SPP
-z_thresh=6
 
 # The name of the genetic cross if working with a hybrid strain
 hybrid="none"

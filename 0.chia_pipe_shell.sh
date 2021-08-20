@@ -1,5 +1,12 @@
 #!/bin/bash
 
+# Set the output to be redirected to lof file
+LOG_LOCATION=/Chiapipe_mod/LDK0004-ds
+exec 19>$LOG_LOCATION/log.out
+export BASH_XTRACEFD=19
+
+set -x
+
 # ChIA-PIPE
 #         Starting point for launching ChIA-PIPE
 # 2018
@@ -104,8 +111,7 @@ if [ ${experiment_type} == 'ChIA-PET' ]; then
     fi
 
     # Report linker detection completion
-    echo -e "`date` --- Linker detection completed ----\n" >> ${log_file}
-
+    echo -e "`date` --- Linker detection completed ----\n" >> ${log_file}k jj
 
     ## Get the statistics
     # Report statistics start

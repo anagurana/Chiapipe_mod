@@ -168,19 +168,24 @@ def standardize_read_name(r, id = 0):
     generic_sect = '897:1101'
     
     if len(regex.findall('SRR', r.name)) > 0:
-        #stara sciezka
-        old_name_parts = r.name.split('.')
+        if "." in r.name and "/":
+            old_name_parts = regex.split("\.|/|\s", r.name)
+            
+            read_num = old_name_parts[1]
+            mate_num = old_name_parts[3]
+        
+        else:
+            #stara sciezka
+            old_name_parts = r.name.split('.')
 
-        read_num = old_name_parts[1]
-        mate_num = old_name_parts[2]
+            read_num = old_name_parts[1]
+            mate_num = old_name_parts[2]
 
         if mate_num == '1':
             mate_sect = '90:130'
         else:
             mate_sect = '94:129'
-
         
-
         read_name = ':'.join(
             [read_num, mate_sect, generic_sect, read_num, read_num])
 

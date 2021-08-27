@@ -4,6 +4,44 @@ services:
 
   web:
     build: .
-    command: bash -c "bash 0.chia_pipe_shell.sh -c config_file.sh && sleep 1000"
+    container_name: chia_pipe
+    command: bash -c "bash 0.chia_pipe_shell.sh -c config_files/config_file_hg19.sh"
     volumes:
-     - /mnt/c/MS/testing_chia_pipe/ChIA_PIPE_mod/LDK0004-ds:/Chiapipe_mod/LDK0004-ds
+     - /mnt/c/MS/testing_chia_pipe/ChIA_PIPE_mod/GSM2138325_GM:/Chiapipe_mod/GSM2138325_GM
+     - /mnt/c/MS/testing_chia_pipe/ChIA_PIPE_mod/fastq:/Chiapipe_mod/fastq
+     - /mnt/c/MS/testing_chia_pipe/ChIA_PIPE_mod/reference:/Chiapipe_mod/reference
+     - /mnt/c/MS/testing_chia_pipe/ChIA_PIPE_mod/config_files:/Chiapipe_mod/config_files
+
+
+
+
+# _py/bin/python console/table_util.py load_genes ${ID} -i /Documents/data/dm3_known_genes.txt --assoc /Documents/data/gene_association.goa_fly --terms /Documents/data/GO.terms_alt_ids
+
+# _py/bin/python console/table_util.py load_genes ${ID} -i /Documents/data/dmel-all-r6.41.gtf --assoc /Documents/data/gene_association.goa_fly --terms /Documents/data/GO.terms_alt_ids
+
+# _py/bin/python console/table_util.py load_genes ${ID} -i /Documents/data/hgTables.txt --assoc /Documents/data/gene_association.goa_fly --terms /Documents/data/GO.terms_alt_id
+
+
+# ################### BASIC-Browser run #####################
+
+# docker stop basic-browser 
+# docker build -t basic-browser .
+# docker run  -d --rm --name basic-browser -p 8000:8000 \
+# -v /mnt/c/MS/testing_chia_pipe/basic-browser/data/:/Documents -v mongodb:/data/db \
+# -v mysql:/var/lib/mysql \
+# basic-browser
+# docker exec -it basic-browser /bin/bash
+
+
+
+
+# cd /Documents
+# bash upload_to_basic.sh -c config_file.sh
+
+# _py/bin/python console/table_util.py create dm3 -l "annotation" "UCSC Known Genes (dm3)"
+
+
+
+
+# mysql -h  genome-mysql.cse.ucsc.edu -A -u genome -D hg19 -e 'select G.name as ".name",G.chrom as ".chrom",G.strand as ".strand",G.txStart as ".txStart",G.txEnd as ".txEnd",G.cdsStart as ".cdsStart", G.cdsEnd as ".cdsEnd", G.exonStarts as ".exonStarts", G.exonEnds as ".exonEnds", X.mRNA as ".kg.Xref.mRNA", X.geneSymbol as ".kgXref.geneSymbol" from knownGene as G, kgXref as X where
+#  G.name=X.kgID' -B > hg19_known_genes.txt

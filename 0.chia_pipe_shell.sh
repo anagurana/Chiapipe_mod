@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Set the output to be redirected to lof file
-LOG_LOCATION=/Chiapipe_mod/LDK0004-ds
-exec 19>$LOG_LOCATION/log.out
+LOG_LOCATION=/Chiapipe_mod/GSM2138325_GM/
+exec 19>$LOG_LOCATION/logfile.log
 export BASH_XTRACEFD=19
 
 set -x
@@ -134,7 +134,7 @@ if [ ${experiment_type} == 'ChIA-PET' ]; then
 
 elif [ ${experiment_type} == 'HiChIP' ]; then
     # Linker filtering for HiChIP data
-    ${dep_dir}/python ${bin_dir}/util/scripts/filter_hichip_linker.py \
+    ${dep_dir}/python ${bin_dir}/util/scripts/filter_hichip_linker.py >> logfile.log 2&>1\
         --r1_file  ${data_dir}/${r1_fastq} \
         --r2_file  ${data_dir}/${r2_fastq} \
         --run  ${run} \

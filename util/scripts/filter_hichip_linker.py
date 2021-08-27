@@ -8,6 +8,7 @@ from Bio.SeqRecord import SeqRecord
 import regex
 import argparse
 import gzip
+import time
 
 
 def parse_read_pair_for_linker(r1, r2, linker, n_mismatch, min_tag_len):
@@ -40,8 +41,8 @@ def parse_read_pair_for_linker(r1, r2, linker, n_mismatch, min_tag_len):
         n_tag (int):
             The number of usable genomic tags (length >=18 bp): 0, 1, or 2.
     """
-    # Set minimum tag length
-    min_tag_len = 18
+    # # Set minimum tag length
+    # min_tag_len = 18
     
     # Initialize number of linkers to zero
     n_link = 0
@@ -161,6 +162,9 @@ def standardize_read_name(r, id = 0):
     # R1: SRR4457848.1.1
     # R2 SRR4457848.1.2
 
+    # Header z publikacji Mumbach
+    # @SRR3467175.1 1/1
+
     # moj header:
     # R1 : @A00805:37:HHYTMDRXX:1:1101:32479:1063 1:N:0:NCCTGAGC+NATCCTCT
     # R2 @A00805:37:HHYTMDRXX:1:1101:32479:1063 2:N:0:NCCTGAGC+NATCCTCT
@@ -168,12 +172,11 @@ def standardize_read_name(r, id = 0):
     generic_sect = '897:1101'
     
     if len(regex.findall('SRR', r.name)) > 0:
-        if "." in r.name and "/":
-            old_name_parts = regex.split("\.|/|\s", r.name)
-            
+        if "." in r.description and "/":
+            old_name_parts = regex.split("\.|/|\s", r.description)      
             read_num = old_name_parts[1]
             mate_num = old_name_parts[3]
-        
+
         else:
             #stara sciezka
             old_name_parts = r.name.split('.')
@@ -286,11 +289,11 @@ def filter_hichip_linker(
    
 
     # ML added n_mismatch nie ustawiony ani w conf ani w skrypcie
-    n_mismatch = 1
+    # n_mismatch = 1
     # Iterate over read pairs
     i = 1
+    start = time.time()
     for r1, r2 in zip(r1_iter, r2_iter):
-        
         ## Parse the read pair for the linker
         # The sequence of each read is now just the genomic tag
         # The number of linkers and number of tags is tracked
@@ -319,6 +322,10 @@ def filter_hichip_linker(
                 # Two tags
                 SeqIO.write(res, a_two_tag, 'fastq')
         i += 1
+        if (i%1000000) == 0:
+            enf=time.time()
+            print (i)
+            print(enf-start)
     close_output_files(a_none, a_one_tag, a_two_tag, a_conflict)
 
 
@@ -366,6 +373,8 @@ def parse_command_line_args():
 if __name__ == '__main__':
      
     args = parse_command_line_args()
+    
+    # Ustawienie n_mismatch
     n_mismatch = 1
     
     #Perform the HiChIP linker filtering

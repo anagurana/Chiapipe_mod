@@ -114,9 +114,6 @@ RUN wget http://lib.stat.cmu.edu/R/CRAN/src/base/R-3/R-3.2.1.tar.gz && \
 
 # ChIA-PIPE excecution (when modifying)
 WORKDIR /Chiapipe_mod
-COPY fastq fastq
-COPY reference reference
-
-COPY config_file.sh config_file.sh
 COPY 0.chia_pipe_shell.sh 0.chia_pipe_shell.sh
+COPY util/scripts/filter_hichip_linker.py util/scripts/filter_hichip_linker.py
 

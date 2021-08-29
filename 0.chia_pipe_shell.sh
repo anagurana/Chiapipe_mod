@@ -133,13 +133,17 @@ if [ ${experiment_type} == 'ChIA-PET' ]; then
     echo -e "`date` --- Statistics completed  ----\n" >> ${log_file}
 
 elif [ ${experiment_type} == 'HiChIP' ]; then
+    yum install -y python3
+    pip3 install biopython
+    pip3 install regex
     # Linker filtering for HiChIP data
-    ${dep_dir}/python ${bin_dir}/util/scripts/filter_hichip_linker.py >> logfile.log 2&>1\
+    python3 ${bin_dir}/util/scripts/filter_hichip_linker.py \
         --r1_file  ${data_dir}/${r1_fastq} \
         --r2_file  ${data_dir}/${r2_fastq} \
         --run  ${run} \
         --linker  ${linker_a} \
-        --min_tag_len  ${min_tag_len}
+        --min_tag_len  ${min_tag_len} \
+        > $LOG_LOCATION/hichipLinker.log
     
     # Write linker filtering stats
     bash ${bin_dir}/util/scripts/write_hichip_linker_stats.sh -c ../${conf}

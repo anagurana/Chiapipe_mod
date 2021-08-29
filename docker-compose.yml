@@ -6,11 +6,14 @@ services:
     build: .
     container_name: chia_pipe
     command: bash -c "bash 0.chia_pipe_shell.sh -c config_files/config_file_hg19.sh"
+    #command: sleep 10000000000
+    
     volumes:
-     - /mnt/c/MS/testing_chia_pipe/ChIA_PIPE_mod/GSM2138325_GM:/Chiapipe_mod/GSM2138325_GM
-     - /mnt/c/MS/testing_chia_pipe/ChIA_PIPE_mod/fastq:/Chiapipe_mod/fastq
-     - /mnt/c/MS/testing_chia_pipe/ChIA_PIPE_mod/reference:/Chiapipe_mod/reference
-     - /mnt/c/MS/testing_chia_pipe/ChIA_PIPE_mod/config_files:/Chiapipe_mod/config_files
+     - /Users/aleksander.ostruk/Documents/Asia_Genome/Chiapipe_mod/GSM2138325_GM:/Chiapipe_mod/GSM2138325_GM
+     - /Users/aleksander.ostruk/Documents/Asia_Genome/Chiapipe_mod/fastq:/Chiapipe_mod/fastq
+     - /Users/aleksander.ostruk/Documents/Asia_Genome/Chiapipe_mod/reference:/Chiapipe_mod/reference
+     - /Users/aleksander.ostruk/Documents/Asia_Genome/Chiapipe_mod/config_files:/Chiapipe_mod/config_files
+     - /Users/aleksander.ostruk/Documents/Asia_Genome/Chiapipe_mod/util/scripts:/Chiapipe_mod/util/scripts
 
 
 

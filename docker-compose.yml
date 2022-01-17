@@ -10,43 +10,9 @@ services:
     
     volumes:
      - /home/agurova/ms/chiapipe_mod/gm19238:/Chiapipe_mod/gm19238
+
      - /home/agurova/data/hichip/yoruban/gm19238/ctcf/ctcf_merged:/Chiapipe_mod/fastq
      - /home/agurova/data/genomes/hg38:/Chiapipe_mod/reference
-     - /home/agurova/ms/chiapipe_mod/config_files:/Chiapipe_mod/config_files
-     - /home/agurova/ms/chiapipe_mod/util/scripts:/Chiapipe_mod/util/scripts
-     - /home/agurova/ms/chiapipe_mod/shell_scripts:/Chiapipe_mod/shell_scripts
-
-
-
-
-
-# _py/bin/python console/table_util.py load_genes ${ID} -i /Documents/data/dm3_known_genes.txt --assoc /Documents/data/gene_association.goa_fly --terms /Documents/data/GO.terms_alt_ids
-
-# _py/bin/python console/table_util.py load_genes ${ID} -i /Documents/data/dmel-all-r6.41.gtf --assoc /Documents/data/gene_association.goa_fly --terms /Documents/data/GO.terms_alt_ids
-
-# _py/bin/python console/table_util.py load_genes ${ID} -i /Documents/data/hgTables.txt --assoc /Documents/data/gene_association.goa_fly --terms /Documents/data/GO.terms_alt_id
-
-
-# ################### BASIC-Browser run #####################
-
-# docker stop basic-browser 
-# docker build -t basic-browser .
-# docker run  -d --rm --name basic-browser -p 8000:8000 \
-# -v /mnt/c/ms/testing_chia_pipe/basic-browser/data/:/Documents -v mongodb:/data/db \
-# -v mysql:/var/lib/mysql \
-# basic-browser
-# docker exec -it basic-browser /bin/bash
-
-
-
-
-# cd /Documents
-# bash upload_to_basic.sh -c config_file.sh
-
-# _py/bin/python console/table_util.py create dm3 -l "annotation" "UCSC Known Genes (dm3)"
-
-
-
-
-# mysql -h  genome-mysql.cse.ucsc.edu -A -u genome -D hg19 -e 'select G.name as ".name",G.chrom as ".chrom",G.strand as ".strand",G.txStart as ".txStart",G.txEnd as ".txEnd",G.cdsStart as ".cdsStart", G.cdsEnd as ".cdsEnd", G.exonStarts as ".exonStarts", G.exonEnds as ".exonEnds", X.mRNA as ".kg.Xref.mRNA", X.geneSymbol as ".kgXref.geneSymbol" from knownGene as G, kgXref as X where
-#  G.name=X.kgID' -B > hg19_known_genes.txt
+    #  - /home/agurova/ms/chiapipe_mod/config_files:/Chiapipe_mod/config_files
+    #  - /home/agurova/ms/chiapipe_mod/util/scripts:/Chiapipe_mod/util/scripts
+    #  - /home/agurova/ms/chiapipe_mod/shell_scripts:/Chiapipe_mod/shell_scripts

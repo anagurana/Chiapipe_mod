@@ -12,6 +12,13 @@ z_thresh = as.numeric(args[4])
 #library("spp", lib.loc=paste0(bin_dir, "/util/")) # ML j.w. 
 #.libPaths(paste0(bin_dir, "/util/")) # hmm nie wiem po co to jest ...
 
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+BiocManager::install("Rsamtools")
+install.packages('fastcluster')
+install.packages("spp", dependencies=TRUE)
+
+
 library("Rsamtools")
 library("fastcluster")
 library("spp")

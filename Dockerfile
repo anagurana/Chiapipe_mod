@@ -109,7 +109,10 @@ samtools-1.5.tar.bz2 && tar -xvjf samtools-1.5.tar.bz2 && \
     cd samtools-1.5 && ./configure --disable-lzma && make && \
     cp samtools ../ && cd ../ && rm -r samtools-1.5
 
-RUN wget http://lib.stat.cmu.edu/R/CRAN/src/base/R-4/R-4.1.0.tar.gz && \
-    tar -xzvf R-4.1.0.tar.gz && cd R-4.1.0 && \
-    ./configure --prefix=${install_dir} --with-x=no && make && \
-    ln -s R-4.1.0/bin/R R
+# RUN wget http://lib.stat.cmu.edu/R/CRAN/src/base/R-4/R-4.1.0.tar.gz && \
+#     tar -xzvf R-4.1.0.tar.gz && cd R-4.1.0 && \
+#     ./configure --prefix=${install_dir} --with-x=no && make && \
+#     ln -s R-4.1.0/bin/R R
+
+RUN yum -y install subscription-manager && dnf -y install epel-release \
+    dnf config-manager --set-enabled powertools && yum -y install R

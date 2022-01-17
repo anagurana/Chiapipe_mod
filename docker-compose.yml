@@ -5,15 +5,17 @@ services:
   web:
     build: .
     container_name: chia_pipe
-    command: bash -c "bash 0.chia_pipe_shell.sh -c config_files/config_file_hg19.sh"
-    #command: sleep 10000000000
+    # command: bash -c "bash 0.chia_pipe_shell.sh -c config_files/config_file_hg19.sh"
+    command: sleep infinity
     
     volumes:
-     - /Users/aleksander.ostruk/Documents/Asia_Genome/Chiapipe_mod/GSM2138325_GM:/Chiapipe_mod/GSM2138325_GM
-     - /Users/aleksander.ostruk/Documents/Asia_Genome/Chiapipe_mod/fastq:/Chiapipe_mod/fastq
-     - /Users/aleksander.ostruk/Documents/Asia_Genome/Chiapipe_mod/reference:/Chiapipe_mod/reference
-     - /Users/aleksander.ostruk/Documents/Asia_Genome/Chiapipe_mod/config_files:/Chiapipe_mod/config_files
-     - /Users/aleksander.ostruk/Documents/Asia_Genome/Chiapipe_mod/util/scripts:/Chiapipe_mod/util/scripts
+     - /home/agurova/ms/chiapipe_mod/gm19238:/Chiapipe_mod/gm19238
+     - /home/agurova/data/hichip/yoruban/gm19238/ctcf/ctcf_merged:/Chiapipe_mod/fastq
+     - /home/agurova/data/genomes/hg38:/Chiapipe_mod/reference
+     - /home/agurova/ms/chiapipe_mod/config_files:/Chiapipe_mod/config_files
+     - /home/agurova/ms/chiapipe_mod/util/scripts:/Chiapipe_mod/util/scripts
+     - /home/agurova/ms/chiapipe_mod/shell_scripts:/Chiapipe_mod/shell_scripts
+
 
 
 
@@ -30,7 +32,7 @@ services:
 # docker stop basic-browser 
 # docker build -t basic-browser .
 # docker run  -d --rm --name basic-browser -p 8000:8000 \
-# -v /mnt/c/MS/testing_chia_pipe/basic-browser/data/:/Documents -v mongodb:/data/db \
+# -v /mnt/c/ms/testing_chia_pipe/basic-browser/data/:/Documents -v mongodb:/data/db \
 # -v mysql:/var/lib/mysql \
 # basic-browser
 # docker exec -it basic-browser /bin/bash

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Set the output to be redirected to lof file
-LOG_LOCATION=/Chiapipe_mod/GSM2138325_GM/
+LOG_LOCATION=/Chiapipe_mod/gm19238/
 exec 19>$LOG_LOCATION/logfile.log
 export BASH_XTRACEFD=19
 
@@ -143,6 +143,7 @@ elif [ ${experiment_type} == 'HiChIP' ]; then
         --run  ${run} \
         --linker  ${linker_a} \
         --min_tag_len  ${min_tag_len} \
+        --n_mismatch ${n_mismatch} \
         > $LOG_LOCATION/hichipLinker.log
     
     # Write linker filtering stats
@@ -155,7 +156,8 @@ elif [ ${experiment_type} == 'PLAC-seq' ]; then
         --r2_file  ${data_dir}/${r2_fastq} \
         --run  ${run} \
         --linker  ${linker_a} \
-        --min_tag_len  ${min_tag_len}
+        --min_tag_len  ${min_tag_len} \
+        --n_mismatch ${n_mismatch}
     
     # Write linker filtering stats
     bash ${bin_dir}/util/scripts/write_hichip_linker_stats.sh -c ../${conf}

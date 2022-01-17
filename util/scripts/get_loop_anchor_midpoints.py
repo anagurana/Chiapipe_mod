@@ -37,35 +37,34 @@ def get_loop_anchor_midpoints(loop_file, min_pet_count=0):
 
 
 def parse_command_line_args():
-	"""
-	Parse command-line arguments.
-	
-	Returns:
-		args (class 'argparse.Namespace'):
-			An object containing the parsed command-line arguments.
-			For every command-line option, the values are stored as follows:
-			args.{option} 
-	"""
-	# Initiate the argument parser
-	parser = argparse.ArgumentParser()
-	required = parser.add_argument_group('required arguments')
-	
-	# Indicate the required arguments
-	required.add_argument(
-		'-l', '--loop_file', required=True,
-		help=('The file of intrachrom loops with PET count >= 2.'))
-	
-	# Indicate the optional arguments
-	optional = parser.add_argument_group('optional arguments')
-	optional.add_argument(
-		'-m', '--min_pet_count', required=False,
-		help=('The minimum PET count for loops to be retained.'))
-	
-	# Parse the arguments from the command-line input
-	args = parser.parse_args()
-	
-	return args
-  
+    """
+    Parse command-line arguments.
+    
+    Returns:
+        args (class 'argparse.Namespace'):
+            An object containing the parsed command-line arguments.
+            For every command-line option, the values are stored as follows:
+            args.{option} 
+    """
+    # Initiate the argument parser
+    parser = argparse.ArgumentParser()
+    required = parser.add_argument_group('required arguments')
+    
+    # Indicate the required arguments
+    required.add_argument(
+        '-l', '--loop_file', required=True, 
+        help=('The file of intrachrom loops with PET count >= 2.'))
+
+    # Indicate the optional arguments
+    optional = parser.add_argument_group('optional arguments')
+    optional.add_argument(
+        '-m', '--min_pet_count', required=False,
+        help=('The minimum PET count for loops to be retained.'))
+    
+    # Parse the arguments from the command-line input
+    args = parser.parse_args()
+    
+    return args
 
 if __name__ == '__main__':
     

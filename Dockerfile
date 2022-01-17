@@ -12,7 +12,7 @@
 FROM centos
 
 # File Author / Maintainer
-MAINTAINER Daniel Capurso
+LABEL Daniel Capurso
 
 # Install base packages: git, python, wget, unzip, R
 
@@ -35,7 +35,10 @@ RUN yum -y update && yum -y install \
     bzip2-devel \
     #for R
     readline-devel \
-    gcc-gfortran
+    gcc-gfortran \
+    xz-devel \
+    pcre2-devel \
+    libcurl-devel
 
 
 RUN git clone https://github.com/anagurana/Chiapipe_mod.git
@@ -106,12 +109,7 @@ samtools-1.5.tar.bz2 && tar -xvjf samtools-1.5.tar.bz2 && \
     cd samtools-1.5 && ./configure --disable-lzma && make && \
     cp samtools ../ && cd ../ && rm -r samtools-1.5
 
-## Install R/3.2.1
-RUN wget http://lib.stat.cmu.edu/R/CRAN/src/base/R-3/R-3.2.1.tar.gz && \
-    tar -xzvf R-3.2.1.tar.gz && cd R-3.2.1 && \
+RUN wget http://lib.stat.cmu.edu/R/CRAN/src/base/R-4/R-4.1.0.tar.gz && \
+    tar -xzvf R-4.1.0.tar.gz && cd R-4.1.0 && \
     ./configure --prefix=${install_dir} --with-x=no && make && \
-    ln -s R-3.2.1/bin/R R
-
-# ChIA-PIPE excecution (when modifying)
-WORKDIR /Chiapipe_mod
-COPY 0.chia_pipe_shell.sh 0.chia_pipe_shell.sh
+    ln -s R-4.1.0/bin/R R

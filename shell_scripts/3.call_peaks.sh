@@ -29,7 +29,6 @@ while [ "$1" != "" ]; do
 done
 
 # Source config file
-clean=true
 source ${conf}
 
 # Add dependency dir to path
@@ -75,6 +74,7 @@ then
     bedtools genomecov -ibam ${run}.for.BROWSER.bam \
         -bg > ${run}.for.BROWSER.bedgraph
     
+    echo -e "`date` Sorting bedgraph..\n" >> ${log_file}
     # Sort bedgraph
     ${bin_dir}/util/scripts/bedSort \
         ${run}.for.BROWSER.bedgraph \

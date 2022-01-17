@@ -2,7 +2,6 @@ import os
 import itertools
 from Bio import SeqIO
 from Bio.Seq import Seq
-# from Bio.Alphabet import SingleLetterAlphabet
 from Bio.SeqIO.QualityIO import FastqPhredIterator
 from Bio.SeqRecord import SeqRecord
 import regex
@@ -363,6 +362,10 @@ def parse_command_line_args():
         '-m', '--min_tag_len', required=True,
         help=('The minimum tag length for mapping (e.g., 18bp).'))
 
+    required.add_argument(
+        '-n', '--n_mismatch', required=True,
+        help=('The number of mismatches for filtering (e.g., 1).'))
+
     # Parse the arguments from the command-line input
     args = parser.parse_args()
 
@@ -371,16 +374,13 @@ def parse_command_line_args():
 
 if __name__ == '__main__':
     try:
-        print("Hello World okok", flush=True)
+        print("HiChIP linker detection started", flush=True)
         args = parse_command_line_args()
-
-        # Ustawienie n_mismatch
-        n_mismatch = 1
 
         args.min_tag_len = int(args.min_tag_len)
 
         #Perform the HiChIP linker filtering
-        filter_hichip_linker(args.r1_file, args.r2_file, args.linker, n_mismatch, args.min_tag_len, args.run)
+        filter_hichip_linker(args.r1_file, args.r2_file, args.linker, args.n_mismatch, args.min_tag_len, args.run)
     except Exception as a:
-        print (str(a)+"very bad")
+        print (str(a)+"Program has error")
 

@@ -12,11 +12,12 @@ z_thresh = as.numeric(args[4])
 #library("spp", lib.loc=paste0(bin_dir, "/util/")) # ML j.w. 
 #.libPaths(paste0(bin_dir, "/util/")) # hmm nie wiem po co to jest ...
 
+# Load packages
 if (!requireNamespace("BiocManager", quietly = TRUE))
-    install.packages("BiocManager")
-BiocManager::install("Rsamtools")
-install.packages('fastcluster')
-install.packages("spp", dependencies=TRUE)
+    install.packages("BiocManager", repos='https://ftp.gwdg.de/pub/misc/cran/')
+BiocManager::install("Rsamtools", ask=FALSE)
+install.packages('fastcluster', repos='https://ftp.gwdg.de/pub/misc/cran/') 
+install.packages("spp", repos='https://ftp.gwdg.de/pub/misc/cran/', dependencies=TRUE)
 
 
 library("Rsamtools")

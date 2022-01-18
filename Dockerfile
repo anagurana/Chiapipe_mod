@@ -38,7 +38,8 @@ RUN yum -y update && yum -y install \
     gcc-gfortran \
     xz-devel \
     pcre2-devel \
-    libcurl-devel
+    libcurl-devel \
+    subscription-manager
 
 
 RUN git clone https://github.com/anagurana/Chiapipe_mod.git
@@ -77,9 +78,10 @@ RUN wget http://biopython.org/DIST/biopython-1.76.tar.gz && \
     cd biopython-1.76 && python setup.py install
 
 ## Install pigz
-RUN wget https://zlib.net/pigz/pigz.tar.gz && tar -xzvf pigz.tar.gz && \
-    cd $(ls | grep "pigz-") && make && \
-    cp pigz unpigz ../ && rm -r pigz
+RUN wget https://zlib.net/pigz/pigz.tar.gz && \
+    tar -xzvf pigz.tar.gz --transform s/pigz/pigz_dir/ && \
+    cd $(ls | grep "pigz_dir") && make && \
+    cp pigz unpigz ../ && cd .. && rm -r pigz_dir
 
 ## Install java/1.8
 RUN wget -c --header "Cookie: oraclelicense=accept-securebackup-cookie" \
@@ -109,10 +111,7 @@ samtools-1.5.tar.bz2 && tar -xvjf samtools-1.5.tar.bz2 && \
     cd samtools-1.5 && ./configure --disable-lzma && make && \
     cp samtools ../ && cd ../ && rm -r samtools-1.5
 
-# RUN wget http://lib.stat.cmu.edu/R/CRAN/src/base/R-4/R-4.1.0.tar.gz && \
-#     tar -xzvf R-4.1.0.tar.gz && cd R-4.1.0 && \
-#     ./configure --prefix=${install_dir} --with-x=no && make && \
-#     ln -s R-4.1.0/bin/R R
-
-RUN yum -y install subscription-manager && dnf -y install epel-release \
-    dnf config-manager --set-enabled powertools && yum -y install R
+# Install R
+RUN dnf -y install epel-release && \
+    dnf config-manager --set-enabled powertools \
+    && yum -y install R && ln -s /bin/R R

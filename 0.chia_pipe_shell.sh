@@ -1,12 +1,5 @@
 #!/bin/bash
 
-# Set the output to be redirected to lof file
-LOG_LOCATION=/Chiapipe_mod/gm19238/
-exec 19>$LOG_LOCATION/logfile.log
-export BASH_XTRACEFD=19
-
-set -x
-
 # ChIA-PIPE
 #         Starting point for launching ChIA-PIPE
 # 2018
@@ -39,10 +32,10 @@ done
 source ${conf}
 
 ## Add dependency dir to path
-#workdir=$( pwd)
+workdir="/Chiapipe_mod"
 #dep_dir=$( cd ${dep_dir} && pwd )
 #export PATH=${dep_dir}:${PATH}
-#cd ${workdir}
+cd ${workdir}
 
 # Set the output directory for writing files
 out_dir="${run}"
@@ -72,7 +65,6 @@ Arguments:
     data_dir=${data_dir}
     out_dir=${out_dir}
 " >> ${log_file}
-
 
 ## Perform linker detection and generate different categories of fastq files
 # Report linker detection start
@@ -111,7 +103,7 @@ if [ ${experiment_type} == 'ChIA-PET' ]; then
     fi
 
     # Report linker detection completion
-    echo -e "`date` --- Linker detection completed ----\n" >> ${log_file}k jj
+    echo -e "`date` --- Linker detection completed ----\n" >> ${log_file}
 
     ## Get the statistics
     # Report statistics start
@@ -133,6 +125,8 @@ if [ ${experiment_type} == 'ChIA-PET' ]; then
     echo -e "`date` --- Statistics completed  ----\n" >> ${log_file}
 
 elif [ ${experiment_type} == 'HiChIP' ]; then
+    hichiplinker_log=${run}.HiChIP_filter_linker.log
+
     yum install -y python3
     pip3 install biopython
     pip3 install regex
@@ -144,10 +138,10 @@ elif [ ${experiment_type} == 'HiChIP' ]; then
         --linker  ${linker_a} \
         --min_tag_len  ${min_tag_len} \
         --n_mismatch ${n_mismatch} \
-        > $LOG_LOCATION/hichipLinker.log
+        2>> ${hichiplinker_log}
     
     # Write linker filtering stats
-    bash ${bin_dir}/util/scripts/write_hichip_linker_stats.sh -c ../${conf}
+    bash ${bin_dir}/util/scripts/write_hichip_linker_stats.sh -c ${conf}
 
 elif [ ${experiment_type} == 'PLAC-seq' ]; then
     # Linker filtering for PLAC-seq data
@@ -160,7 +154,7 @@ elif [ ${experiment_type} == 'PLAC-seq' ]; then
         --n_mismatch ${n_mismatch}
     
     # Write linker filtering stats
-    bash ${bin_dir}/util/scripts/write_hichip_linker_stats.sh -c ../${conf}
+    bash ${bin_dir}/util/scripts/write_hichip_linker_stats.sh -c ${conf}
     
 fi
 
@@ -603,7 +597,7 @@ then
     
     # Call peaks using SPP
     R --vanilla < ${bin_dir}/util/scripts/spp.R --args ${run}.for.BROWSER.bam \
-        ${input_control} ${bin_dir} ${z_thresh}
+        ${input_control} ${bin_dir} ${z_thresh} &>/dev/null
 else
     # Report MACS2 to log file
     echo -e "`date` Peak calling using MACS2..\n" >> ${log_file}
@@ -707,8 +701,7 @@ min_pet_count=$( sed "${cutoff_line}q;d" \
 ccd_input="${be3_file}.peak_annot.E2"
 
 ${dep_dir}/python ${bin_dir}/util/scripts/get_loop_anchor_midpoints.py \
-    -l ${ccd_input} \
-    -m ${min_pet_count}
+-l ${ccd_input} -m ${min_pet_count}
 
 
 # Sort loops
@@ -745,7 +738,7 @@ awk 'BEGIN{printf("chr1\tx1\tx2\tchr2\ty1\ty2\tcolor\n");}
 ############### 4. Extract summary stats
 
 bash ${bin_dir}/util/scripts/extract_summary_stats.sh \
-    --conf ../${conf} --out_dir ${out_dir}
+    --conf ${conf} --out_dir ${out_dir}
 
 
 ###############

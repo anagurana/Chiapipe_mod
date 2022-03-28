@@ -6,7 +6,7 @@
 
 # The name of the sequencing run
 # Unique identifier for the library being processed
-run="gm19238"
+run="gm19240"
 
 # Experiment type
 #   "ChIA-PET"
@@ -24,7 +24,7 @@ run_type="hiseq"
 ip_factor="CTCF"
 
 # Cell type
-cell_type="gm19238"
+cell_type="gm19240"
 
 # The directory containing the input FASTQ files
 data_dir="/Chiapipe_mod/fastq"
@@ -63,7 +63,7 @@ peak_caller="spp"
 # The BAM file for the ChIP-seq input control
 # (Required for spp; not required for macs2)
 # If not available, set to "none"
-input_control="none"
+input_control="/Chiapipe_mod/reference/GM19240_input_hg38_CHG0003.bam"
 
 # The Z-score threshold for peak calling with SPP
 z_thresh=6
@@ -93,7 +93,7 @@ all_steps=true
 # Should unessential intermediate files be deleted?
 # true: delete intermediate files
 # false: retain intermediate files (will take up a lot more disk space)
-clean=false
+clean=true
 
 # The ChIA-PET Utilities program
 main_prog="${bin_dir}/util/cpu-dir/cpu-dir/cpu"
@@ -102,10 +102,10 @@ main_prog="${bin_dir}/util/cpu-dir/cpu-dir/cpu"
 juicer="${bin_dir}/util/juicer_tools.1.7.5_linux_x64_jcuda.0.8.jar"
 
 # The number of threads to use on the HPC
-n_thread=30
+n_thread=120
 
 # The amount of memory to use on the HPC (in GB)
-mem=80
+mem=300
 
 ## 4) Expert options: detailed parameters
 

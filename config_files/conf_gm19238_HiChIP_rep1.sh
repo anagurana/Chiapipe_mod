@@ -6,7 +6,7 @@
 
 # The name of the sequencing run
 # Unique identifier for the library being processed
-run="LDK0004-ds"
+run="gm19238_HiChIP_rep1"
 
 # Experiment type
 #   "ChIA-PET"
@@ -18,61 +18,59 @@ experiment_type="ChIA-PET"
 #    "miseq" - around 30 million reads
 #    "hiseq" - around 300 million reads
 #    "pooled" - around 1 billion reads
-run_type="miseq"
+run_type="hiseq"
 
 # The factor for which the IP was performed
-ip_factor="RNAPII"
+ip_factor="CTCF"
 
 # Cell type
-cell_type="Kc167"
+cell_type="gm19238"
 
 # The directory containing the input FASTQ files
 data_dir="/Chiapipe_mod/fastq"
 
 # The names of the FASTQ files
-r1_fastq="LDK0004-ds_*_R1_*.fastq.gz"
-r2_fastq="LDK0004-ds_*_R2_*.fastq.gz"
+r1_fastq="*R1*.fastq.gz"
+r2_fastq="*R2*.fastq.gz"
 
 
 
 ### 2) Dependency information
 
 # The directory containing the executables for ChIA-PIPE
-#bin_dir="/projects/encode/chia_pipe"
 bin_dir="/Chiapipe_mod"
 
 # The directory of the local install of ChIA-PIPE dependencies
-#dep_dir="../dep_dir"
 dep_dir="/Chiapipe_mod/dependencies"
 
 # The name of the primary genome
 # For example: "hg19", "hg38", "dm3", "mm9", "mm10"
-genome="dm3"
+genome="hg38"
 
 # The reference genome FASTA file for aligning the reads
 # (The same directory must also contain the BWA index files)
-#fasta="/projects/ruan-lab/processing/genomes/dm3/dm3.fa"
-fasta="/Chiapipe_mod/reference/dm3/dm3.fa"
+# In order to generate BWA inxed files: bwa index genome.fa
+fasta="/Chiapipe_mod/reference/hg38.fa.gz"
 
 # The chrom.sizes file from UCSC Genome browser
 # for the relevant genome build
 #chrom_sizes="/projects/ruan-lab/processing/genomes/dm3/dm3.chrom.sizes"
-chrom_sizes="/Chiapipe_mod/reference/dm3/dm3.chrom.sizes"
+chrom_sizes="/Chiapipe_mod/reference/hg38.chrom.sizes"
 
 # The peak-calling algorithm ("macs2" or "spp")
-peak_caller="macs2"
+peak_caller="spp"
 
 # The BAM file for the ChIP-seq input control
 # (Required for spp; not required for macs2)
 # If not available, set to "none"
-input_control="none"
+input_control="/Chiapipe_mod/reference/GM19240_input_hg38_CHG0003.bam"
 
 # The Z-score threshold for peak calling with SPP
 z_thresh=6
 
 
 # The folder in BASIC browser to which to upload the tracks
-basic_folder="${run}"
+basic_folder="New user testing"
 
 # BED file of promoters for annotating loops
 promoter_bed_file="none"
@@ -104,15 +102,20 @@ main_prog="${bin_dir}/util/cpu-dir/cpu-dir/cpu"
 juicer="${bin_dir}/util/juicer_tools.1.7.5_linux_x64_jcuda.0.8.jar"
 
 # The number of threads to use on the HPC
-n_thread=20
+n_thread=30
 
 # The amount of memory to use on the HPC (in GB)
-mem=60
+mem=300
 
 ## 4) Expert options: detailed parameters
 
 # The bridge linker sequence used during ChIA-PET
-linker_a="ACGCGATATCTTATCTGACT"
+# linker_a="none"
+# linker_a="ACGCGATATCTTATCTGACT"
+
+# MboI restriction enzyme
+linker_a="GATCGATC"
+# "CTGTCTCTTATACACATCTC"
 
 ## From the long-read paper
 #linker_a="CGCGATATC/iBIOdT/TATCTGACT"
@@ -120,6 +123,9 @@ linker_a="ACGCGATATCTTATCTGACT"
 
 # The second half linker sequence (if two linker sequences were used)
 linker_b="none"
+
+# The number of mismatches allowed when searching for the linker in HiChIP
+n_mismatch=1
 
 # The minimum tag length required for aligning to the reference
 # genome after linker filtering

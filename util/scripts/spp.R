@@ -15,9 +15,9 @@ z_thresh = as.numeric(args[4])
 # Load packages
 if (!requireNamespace("BiocManager", quietly = TRUE))
     install.packages("BiocManager", repos='https://ftp.gwdg.de/pub/misc/cran/')
-BiocManager::install("Rsamtools", ask=FALSE)
-install.packages('fastcluster', repos='https://ftp.gwdg.de/pub/misc/cran/') 
-install.packages("spp", repos='https://ftp.gwdg.de/pub/misc/cran/', dependencies=TRUE)
+BiocManager::install("Rsamtools", ask=FALSE, force = TRUE, INSTALL_opts = '--no-lock')
+install.packages('fastcluster', repos='https://ftp.gwdg.de/pub/misc/cran/', force=TRUE, INSTALL_opts = '--no-lock') 
+install.packages("spp", repos='https://ftp.gwdg.de/pub/misc/cran/', dependencies=TRUE, force=TRUE, INSTALL_opts = '--no-lock')
 
 
 library("Rsamtools")
@@ -42,8 +42,14 @@ input_data = select.informative.tags(input_reads, binding_char)
 
 # Remove or restrict singular positions with extremely high tag count
 # relative to their neighborhood
-chip_filt = remove.local.tag.anomalies(chip_data)
+chip_filt_old = remove.local.tag.anomalies(chip_data)
 input_filt = remove.local.tag.anomalies(input_data)
+
+chr_to_remove = c()
+for (name in names(chip_filt_old[])) {
+	if (nchar(name) > 5) {
+		chr_to_remove=c(chr_to_remove, name) } }
+chip_filt = chip_filt_old[names(chip_filt_old) %in% chr_to_remove == FALSE]
 
 # Get window size
 window_half_size = binding_char$whs
